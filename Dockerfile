@@ -4,13 +4,12 @@ WORKDIR /app
 
 COPY package*.json ./
 
-# Debug: check what picomatch version is in the copied lockfile
 RUN grep -A 2 '"node_modules/picomatch"' package-lock.json
 
 RUN npm ci
 
-# Debug: check what actually got installed
-RUN find node_modules/picomatch -name "package.json" | xargs grep '"version"'
+# ADD THIS LINE - finds ALL picomatch installs including nested ones
+RUN find node_modules -name "package.json" -path "*/picomatch/package.json" | xargs grep '"version"'
 
 COPY . .
 
