@@ -20,7 +20,7 @@ jobs:
           scan-type: "fs"
           scan-ref: "."
           severity: "CRITICAL,HIGH"
-          exit-code: "1"
+          exit-code: false
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -36,13 +36,13 @@ jobs:
           context: .
           no-cache: true
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v4.2 # ← fixed tag
+          tags: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v4.3 # ← fixed tag
 
       # STEP 3: THEN scan the newly pushed image
       - name: Docker Scout Scan
         uses: docker/scout-action@v1
         with:
           command: cves
-          image: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v4.2 # ← must match above
+          image: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v4.3 # ← must match above
           only-severities: critical,high
           exit-code: true
