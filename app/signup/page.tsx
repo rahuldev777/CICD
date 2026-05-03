@@ -33,14 +33,24 @@ export default function Signup() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg border border-gray-100">
         <div className="text-center">
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Create Account</h2>
-          <p className="mt-2 text-sm text-gray-600">Join our Todo application</p>
+          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+            Create Account here
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Join our Todo application
+          </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSignup}>
-          {error && <div className="text-red-500 text-sm text-center bg-red-50 p-3 rounded-md">{error}</div>}
+          {error && (
+            <div className="text-red-500 text-sm text-center bg-red-50 p-3 rounded-md">
+              {error}
+            </div>
+          )}
           <div className="rounded-md shadow-sm space-y-4">
             <div>
-              <label className="sr-only" htmlFor="name">Name</label>
+              <label className="sr-only" htmlFor="name">
+                Name
+              </label>
               <input
                 id="name"
                 name="name"
@@ -53,7 +63,9 @@ export default function Signup() {
               />
             </div>
             <div>
-              <label className="sr-only" htmlFor="email">Email address</label>
+              <label className="sr-only" htmlFor="email">
+                Email address
+              </label>
               <input
                 id="email"
                 name="email"
@@ -66,7 +78,9 @@ export default function Signup() {
               />
             </div>
             <div>
-              <label className="sr-only" htmlFor="password">Password</label>
+              <label className="sr-only" htmlFor="password">
+                Password
+              </label>
               <input
                 id="password"
                 name="password"
@@ -92,7 +106,10 @@ export default function Signup() {
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
-            <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500">
+            <Link
+              href="/login"
+              className="font-medium text-blue-600 hover:text-blue-500"
+            >
               Sign in
             </Link>
           </p>
