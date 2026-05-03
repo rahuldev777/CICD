@@ -2,11 +2,15 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-# Copy both package.json AND package-lock.json
 COPY package*.json ./
 
-# Use npm ci - installs exactly what's in lockfile (respects overrides)
+# Debug: check what picomatch version is in the copied lockfile
+RUN grep -A 2 '"node_modules/picomatch"' package-lock.json
+
 RUN npm ci
+
+# Debug: check what actually got installed
+RUN find node_modules/picomatch -name "package.json" | xargs grep '"version"'
 
 COPY . .
 
