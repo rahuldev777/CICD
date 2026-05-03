@@ -29,13 +29,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       # BUILD THE IMAGE
-      - name: Build and Push
-        id: docker_build
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v2
 
       # LAYER 2: Scan the Final Docker Image
       - name: Docker Scout Scan
@@ -45,3 +38,11 @@ jobs:
           image: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v2
           only-severities: critical,high
           exit-code: true # This fails the job if the Docker image is unsafe
+
+      - name: Build and Push
+        id: docker_build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v2
