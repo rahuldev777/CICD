@@ -2,13 +2,16 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-# Directly replace vulnerable picomatch inside npm's bundled modules
-RUN cd /usr/local/lib/node_modules/npm && \
-    npm install picomatch@4.0.4 --save-exact
+# Remove vulnerable picomatch from npm's internal modules
+RUN rm -rf /usr/local/lib/node_modules/npm/node_modules/picomatch
 
 COPY package*.json ./
 
 RUN npm ci
+
+# Symlink app's patched picomatch into npm's module directory
+RUN ln -s /app/node_modules/picomatch \
+    /usr/local/lib/node_modules/npm/node_modules/picomatch
 
 COPY . .
 
