@@ -47,4 +47,4 @@ jobs:
           context: .
           no-cache: true
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v2
+          tags: your-username/to-do-app:front-end-v3
