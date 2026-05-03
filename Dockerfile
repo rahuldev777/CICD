@@ -2,8 +2,9 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-# Upgrade npm to 11.13.0 which has picomatch 4.0.4
-RUN npm install -g npm@11.13.0 --prefer-online
+# Directly replace vulnerable picomatch inside npm's bundled modules
+RUN cd /usr/local/lib/node_modules/npm && \
+    npm install picomatch@4.0.4 --save-exact
 
 COPY package*.json ./
 
