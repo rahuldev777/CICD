@@ -43,6 +43,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v5
         with:
+          cache-from: type=gha
           context: .
           no-cache: true
           push: true
