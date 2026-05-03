@@ -13,14 +13,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # LAYER 1: Scan the Source Code and NPM Packages
+      # STEP 1: Scan source code FIRST
       - name: Run Trivy Vulnerability Scanner (FS)
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: "fs"
           scan-ref: "."
           severity: "CRITICAL,HIGH"
-          exit-code: "1" # This stops the build if a serious vulnerability is found
+          exit-code: "1"
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -28,23 +28,21 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # BUILD THE IMAGE
-
-      # LAYER 2: Scan the Final Docker Image
-      - name: Docker Scout Scan
-        uses: docker/scout-action@v1
-        with:
-          command: cves
-          image: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v2
-          only-severities: critical,high
-          exit-code: true # This fails the job if the Docker image is unsafe
-
+      # STEP 2: Build the new image FIRST
       - name: Build and Push
         id: docker_build
         uses: docker/build-push-action@v5
         with:
-          cache-from: type=gha
           context: .
           no-cache: true
           push: true
-          tags: your-username/to-do-app:front-end-v3
+          tags: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v3 # ← fixed tag
+
+      # STEP 3: THEN scan the newly pushed image
+      - name: Docker Scout Scan
+        uses: docker/scout-action@v1
+        with:
+          command: cves
+          image: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v3 # ← must match above
+          only-severities: critical,high
+          exit-code: true
