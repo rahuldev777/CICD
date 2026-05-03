@@ -36,13 +36,13 @@ jobs:
           context: .
           no-cache: true
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v3 # ← fixed tag
+          tags: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v4 # ← fixed tag
 
       # STEP 3: THEN scan the newly pushed image
       - name: Docker Scout Scan
         uses: docker/scout-action@v1
         with:
           command: cves
-          image: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v3 # ← must match above
+          image: ${{ secrets.DOCKER_USERNAME }}/to-do-app:front-end-v4 # ← must match above
           only-severities: critical,high
           exit-code: true
